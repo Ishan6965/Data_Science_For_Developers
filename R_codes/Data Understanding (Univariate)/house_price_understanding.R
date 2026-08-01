@@ -208,9 +208,6 @@ house %>%
 
 
 
-
-
-
 # Histogram of WEST SUFFOLK
 
 house %>%
