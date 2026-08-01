@@ -3,7 +3,6 @@ setwd("D:/Data Science/240013_DataScienceForDev_cw/raw_data/Price dataset")
 getwd()
 list.files()
 list.files(recursive = TRUE)
-ls()
 
 house2021 <- read.csv("pp-2021.csv", header = FALSE)
 house2022 <- read.csv("pp-2022.csv", header = FALSE)

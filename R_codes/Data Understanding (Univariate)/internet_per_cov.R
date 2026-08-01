@@ -28,7 +28,7 @@ performance_selected <- performance %>%
 
 coverage_selected <- coverage %>%
   filter(
-    laua_name.x %in% c(
+    laua_name.y %in% c(
       "BRECKLAND",
       "KING'S LYNN AND WEST NORFOLK",
       "WEST SUFFOLK"
@@ -36,6 +36,19 @@ coverage_selected <- coverage %>%
   )
 
 
+coverage_plot <- coverage_selected %>%
+  select(
+    laua_name.y,
+    Full_Fibre_Coverage,
+    Gigabit_Coverage,
+    UFBB_Coverage
+  ) %>%
+  pivot_longer(
+    cols = -laua_name.y,
+    names_to = "Coverage_Type",
+    values_to = "Percentage"
+  ) %>%
+  rename(Local_Authority = laua_name.y)
 
 
 # Select relevant download speed columns

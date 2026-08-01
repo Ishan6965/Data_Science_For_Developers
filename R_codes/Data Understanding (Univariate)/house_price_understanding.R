@@ -92,7 +92,6 @@ house %>%
     axis.text.x = element_text(size = 8, angle = 45, hjust = 1)
   )
 
-#Histogram
 
 
 #Line chart

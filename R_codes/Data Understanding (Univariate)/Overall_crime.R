@@ -48,7 +48,7 @@ crime_county_total
 
 #Barchart showing Norfolk vs Suffolk total crimes
 
-ggplot(crime_county, aes(x = County, y = Total_Crimes, fill = County)) +
+ggplot(crime_county_total, aes(x = County, y = Total_Crimes, fill = County)) +
   geom_col(width = 0.6) +
   geom_text(
     aes(label = Total_Crimes),

@@ -43,6 +43,15 @@ ks4_selected %>%
 
 
 
+avg_attainment <- ks4_selected %>%
+  group_by(District) %>%
+  summarise(
+    Average_Attainment8 = mean(Attainment8, na.rm = TRUE),
+    .groups = "drop"
+  )
+
+
+
 
 # -------------------------------
 # Boxplot: Attainment 8 distribution

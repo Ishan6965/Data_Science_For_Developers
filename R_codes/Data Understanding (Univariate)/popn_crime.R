@@ -2,6 +2,8 @@ setwd("D:/Data Science/240013_DataScienceForDev_cw/merged_data")
 library(dplyr)
 library(tidyr)
 library(ggplot2)
+install.packages("fmsb")
+library(fmsb)
 
 population_final <- read.csv(
   "population_2024.csv",

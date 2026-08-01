@@ -1,12 +1,14 @@
 setwd("D:/Data Science/240013_DataScienceForDev_cw/merged_data")
+
 library(dplyr)
 library(ggplot2)
+
+# Load datasets
 
 performance <- read.csv(
   "internet_perf_final.csv",
   stringsAsFactors = FALSE
 )
-
 
 crime_final <- read.csv(
   "crime_final.csv",
@@ -18,12 +20,16 @@ population_final <- read.csv(
   stringsAsFactors = FALSE
 )
 
-ks4_final <- read.csv("ks4_final.csv")
+ks4_final <- read.csv(
+  "ks4_final.csv",
+  stringsAsFactors = FALSE
+)
 
+#----------------------------------------------------
+# Attainment score vs Drug Offence Rate
+#----------------------------------------------------
 
-
-
-#Attantment score vs drug off rate
+# Convert Attainment 8 to numeric
 
 ks4_final$Attainment8 <- as.numeric(ks4_final$Attainment8)
 
@@ -47,7 +53,11 @@ ks4_selected <- ks4_final %>%
     !is.na(Attainment8)
   )
 
-# Average Attainment 8 score by district
+# Selected districts
+
+selected <- unique(ks4_selected$District)
+
+# Average Attainment 8 score
 
 attainment <- ks4_selected %>%
   group_by(District) %>%
@@ -68,7 +78,7 @@ population <- population_final %>%
     LAD_Name = toupper(LAD_Name)
   )
 
-# Drug offence rate by district
+# Drug offence rate
 
 drug_rate <- crime_final %>%
   mutate(
@@ -93,7 +103,7 @@ drug_rate <- crime_final %>%
   ) %>%
   select(District, Drug_Rate)
 
-# Merge datasets
+# Merge attainment and drug rate
 
 attainment_drug <- left_join(
   attainment,
@@ -101,11 +111,15 @@ attainment_drug <- left_join(
   by = "District"
 )
 
-# Scatter plot with line of best fit
+# Scatter plot
 
-ggplot(attainment_drug,
-       aes(x = Avg_Attainment8,
-           y = Drug_Rate)) +
+ggplot(
+  attainment_drug,
+  aes(
+    x = Avg_Attainment8,
+    y = Drug_Rate
+  )
+) +
   geom_point(size = 3) +
   geom_smooth(method = "lm", se = FALSE) +
   labs(
@@ -123,14 +137,15 @@ cor(
   use = "complete.obs"
 )
 
+#----------------------------------------------------
+# Average Download Speed vs Drug Offence Rate
+#----------------------------------------------------
 
-
-
-
-
-#Avg download speed vs drug off rate
-
-# Merge internet speed and drug offence rate
+internet <- performance %>%
+  transmute(
+    District = toupper(Local_Authority),
+    Avg_Download = Avg_Download_100_300
+  )
 
 internet_drug <- left_join(
   internet,
@@ -138,11 +153,13 @@ internet_drug <- left_join(
   by = "District"
 )
 
-# Scatter plot with line of best fit
-
-ggplot(internet_drug,
-       aes(x = Avg_Download,
-           y = Drug_Rate)) +
+ggplot(
+  internet_drug,
+  aes(
+    x = Avg_Download,
+    y = Drug_Rate
+  )
+) +
   geom_point(size = 3) +
   geom_smooth(method = "lm", se = FALSE) +
   labs(
@@ -152,7 +169,7 @@ ggplot(internet_drug,
   ) +
   theme_minimal()
 
-# Pearson correlation
+# Correlation
 
 cor(
   internet_drug$Avg_Download,
@@ -160,21 +177,15 @@ cor(
   use = "complete.obs"
 )
 
-
-
-
-
-
-
-#avg download speed vs att score
+#----------------------------------------------------
+# Average Download Speed vs Attainment Score
+#----------------------------------------------------
 
 internet_school <- left_join(
   internet,
   attainment,
   by = "District"
 )
-
-# Scatter plot
 
 ggplot(
   internet_school,
